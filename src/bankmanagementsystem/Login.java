@@ -77,9 +77,20 @@ public class Login extends JFrame implements ActionListener {
     }
     public void actionPerformed(ActionEvent ae) {
         try{
-            Conn c1 = new Conn();
             if(ae.getSource()==b1){
+                Conn c1 = new Conn();
+                String cardnumber = tf.getText();
+                String pin = pf.getText();
+                String q = "Select * from login where cardnumber = '"+cardnumber+"' and pin = '"+pin+"'";
                 
+                ResultSet rs = c1.s.executeQuery(q);
+                if(rs.next()){
+                    setVisible(false);
+                    new Transactions(pin).setVisible(true);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Incorrect Card Number or PIN");
+                }
             }
             else if(ae.getSource()==b2){
                 tf.setText("");
