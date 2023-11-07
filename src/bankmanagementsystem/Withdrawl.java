@@ -63,30 +63,33 @@ public class Withdrawl extends JFrame implements ActionListener{
                     ResultSet rs = c1.s.executeQuery("select * from bank where pin = '"+pin+"'");
                     int balance = 0;
                     while(rs.next()){
-                       if(rs.getString("mode").equals("Deposit")){
-                           balance += Integer.parseInt(rs.getString("amount"));
-                       }else{
-                           balance -= Integer.parseInt(rs.getString("amount"));
-                       }
+                       String transactionType = rs.getString("transaction_type");
+                        int transactionAmount = Integer.parseInt(rs.getString("amount"));
+
+                        if (transactionType.equals("Deposit")) {
+                            balance += transactionAmount;
+                        } else if (transactionType.equals("Withdrawl")) { // Correct the typo to "Withdrawal"
+                            balance -= transactionAmount;
+                        }
                     }
-                    if(balance < Integer.parseInt(amount)){
-                        JOptionPane.showMessageDialog(null, "Insuffient Balance");
+
+                    if (balance < Integer.parseInt(amount)) {
+                        JOptionPane.showMessageDialog(null, "Insufficient Balance");
                         return;
                     }
-                    
-                    c1.s.executeUpdate("insert into bank values('"+pin+"', '"+date+"', 'Withdrawl', '"+amount+"')");
-                    JOptionPane.showMessageDialog(null, "Rs. "+amount+" Debited Successfully");
-                    
+
+                    c1.s.executeUpdate("INSERT INTO bank (pin, date, transaction_type, amount) VALUES ('" + pin + "', '" + date + "', 'Withdrawal', '" + amount + "')");
+                    JOptionPane.showMessageDialog(null, "Rs. " + amount + " Debited Successfully");
+
                     setVisible(false);
                     new Transactions(pin).setVisible(true);
                 }
-            }else if(ae.getSource()==b2){
+            } else if (ae.getSource() == b2) {
                 setVisible(false);
                 new Transactions(pin).setVisible(true);
             }
-        }catch(Exception e){
-                e.printStackTrace();
-                System.out.println("error: "+e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     public static void main(String[] args) {
