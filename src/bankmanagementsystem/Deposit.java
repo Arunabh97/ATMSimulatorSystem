@@ -52,9 +52,9 @@ public class Deposit extends JFrame implements ActionListener{
         try{
             String amount = tf1.getText();
             Date date = new Date();
-        if(ae.getSource()==b1){
-            if(tf1.getText().equals("")){
-              JOptionPane.showMessageDialog(null, "Please enter the Amount to you want to Deposit");               
+            if(ae.getSource()==b1){
+                if(tf1.getText().equals("")){
+                    JOptionPane.showMessageDialog(null, "Please enter the Amount to you want to Deposit");               
             }
             else {
                 Conn c1 = new Conn();

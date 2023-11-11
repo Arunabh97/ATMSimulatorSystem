@@ -60,25 +60,22 @@ public class Withdrawl extends JFrame implements ActionListener{
                 }else{
                     Conn c1 = new Conn();
                     
-                    ResultSet rs = c1.s.executeQuery("select * from bank where pin = '"+pin+"'");
+                    ResultSet rs = c1.s.executeQuery("SELECT * FROM bank WHERE pin = '" + pin + "' ORDER BY date DESC");
                     int balance = 0;
                     while(rs.next()){
-                       String transactionType = rs.getString("transaction_type");
-                        int transactionAmount = Integer.parseInt(rs.getString("amount"));
-
-                        if (transactionType.equals("Deposit")) {
-                            balance += transactionAmount;
-                        } else if (transactionType.equals("Withdrawl")) { // Correct the typo to "Withdrawal"
-                            balance -= transactionAmount;
-                        }
+                        System.out.println("Type: " + rs.getString("type") + ", Amount: " + rs.getString("amount"));
+                       if(rs.getString("type").equals("Deposit")){
+                           balance += Integer.parseInt(rs.getString("amount"));
+                       }else{
+                           balance -= Integer.parseInt(rs.getString("amount"));
+                       }
                     }
-
-                    if (balance < Integer.parseInt(amount)) {
-                        JOptionPane.showMessageDialog(null, "Insufficient Balance");
+                    if(balance < Integer.parseInt(amount)){
+                        JOptionPane.showMessageDialog(null, "Insuffient Balance");
                         return;
                     }
-
-                    c1.s.executeUpdate("INSERT INTO bank (pin, date, transaction_type, amount) VALUES ('" + pin + "', '" + date + "', 'Withdrawal', '" + amount + "')");
+                    
+                    c1.s.executeUpdate("insert into bank values('"+pin+"', '"+date+"', 'Withdrawl', '"+amount+"')");
                     JOptionPane.showMessageDialog(null, "Rs. " + amount + " Debited Successfully");
 
                     setVisible(false);
