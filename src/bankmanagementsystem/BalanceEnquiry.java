@@ -49,7 +49,7 @@ public class BalanceEnquiry extends JFrame implements ActionListener{
         l1.setText("Your Current Account Balance is Rs "+balance);
         
         setLayout(null);
-        //setUndecorated(true);
+        setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900,790);
         setLocation(360,10);
